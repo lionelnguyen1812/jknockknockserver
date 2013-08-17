@@ -10,5 +10,6 @@ package knockknockserver;
  */
 public class NewClass {
     int i = 0;
+    int k = 0;
     
 }

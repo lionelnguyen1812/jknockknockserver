@@ -9,5 +9,6 @@ package knockknockserver;
  * @author caubuonviai1803
  */
 public class NewClass {
+    int i = 0;
     
 }

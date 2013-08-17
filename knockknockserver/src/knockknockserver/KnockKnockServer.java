@@ -4,10 +4,7 @@ package knockknockserver;
 import java.net.SocketException;
 
 public class KnockKnockServer {
-    // :) co gang len
-    // mes 1
-    
-    // mé 2
+
     public static void main(String[] args) {
         try {
             new QuoteServerThread().start();

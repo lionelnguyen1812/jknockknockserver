@@ -5,6 +5,7 @@ import java.net.SocketException;
 
 public class KnockKnockServer {
     // :) co gang len
+    // mes 1
     public static void main(String[] args) {
         try {
             new QuoteServerThread().start();

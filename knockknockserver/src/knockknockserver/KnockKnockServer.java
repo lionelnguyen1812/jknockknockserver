@@ -7,8 +7,6 @@ public class KnockKnockServer {
 
     private static final int LOCAL_PORT = 8888;
     
-    private DatagramSocket socket = null;
-    
     ServerLogger logger;
 
     public KnockKnockServer() {

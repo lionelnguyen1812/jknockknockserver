@@ -10,8 +10,10 @@ import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+//va joined
+
 public class QuoteServerThread extends Thread{
-    private static final int LOCAL_PORT = 8888;
+    private static final int LOCAL_PORT = 8888;;
     
     private DatagramSocket socket = null;
     private BufferedReader in = null;

@@ -2,7 +2,6 @@
 package knockknockserver;
 
 import java.io.IOException;
-
 public class KnockKnockServer {
 
     private static final int LOCAL_PORT = 8888;

@@ -44,11 +44,11 @@ public class ResponseFactory implements Runnable {
 
     @Override
     public void run() {
-        String dataForResponPacket = makeResponse();
-        byte[] buf = dataForResponPacket.getBytes();
-        DatagramPacket respsonsePacket = new DatagramPacket(buf, buf.length, packet.getAddress(), packet.getPort());
+        String needToResponse = makeResponse();
+        byte[] buf = needToResponse.getBytes();
+        DatagramPacket packetToResponse = new DatagramPacket(buf, buf.length, packet.getAddress(), packet.getPort());
         try {
-            socket.send(respsonsePacket);
+            socket.send(packetToResponse);
         } catch (IOException ex) {
             logger.log("could not send response");
         }

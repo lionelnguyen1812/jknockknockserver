@@ -2,7 +2,6 @@
 package knockknockserver;
 
 import java.io.IOException;
-import java.net.DatagramSocket;
 
 public class KnockKnockServer {
 

@@ -1,5 +1,6 @@
 package knockknockserver;
 
+import knockknockserver.netio.SocketService;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -37,7 +38,7 @@ public class SocketServiceTest {
         }
 
         ss.close();
-        assertEquals(1, ss.connections());
+        assertEquals(1, ss.packets());
     }
 
     private void sendMes() {

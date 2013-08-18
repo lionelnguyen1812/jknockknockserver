@@ -1,6 +1,7 @@
 /* @author chad */
 package knockknockserver;
 
+import knockknockserver.netio.SocketService;
 import java.io.IOException;
 public class KnockKnockServer {
 

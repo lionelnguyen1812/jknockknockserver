@@ -1,24 +1,35 @@
 /* @author chad */
-package knockknockserver;
+package knockknockserver.netio;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import knockknockserver.ServerLogger;
+import knockknockserver.bzn.DBConnector;
 
-public class Responder implements Runnable{
+public class ResponseFactory implements Runnable {
+
     ServerLogger logger;
     DatagramSocket socket = null;
     DatagramPacket packet = null;
-    
-    Responder(DatagramSocket socket, DatagramPacket packet) {
+    DBConnector dbconnector = null;
+
+    public ResponseFactory(DatagramSocket socket, DatagramPacket packet) {
         this.socket = socket;
         this.packet = packet;
         this.logger = new ServerLogger("Responder Logger");
     }
-    
+
     private byte[] makeResponse() {
-        String mes = "hello";
-        return mes.getBytes();
+        String response = "";
+        String[] splitedDataPacket = new String(this.packet.getData()).split(";");
+        switch (splitedDataPacket[0]) {
+            case "login":
+                break;
+            default:
+                break;
+        }
+        return response.getBytes();
     }
 
     @Override
@@ -31,5 +42,4 @@ public class Responder implements Runnable{
             logger.log("could not send response");
         }
     }
-
 }

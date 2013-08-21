@@ -1,5 +1,6 @@
 package knockknockserver.entities;
 
+import knockknockserver.model.UserAccount;
 import java.awt.Image;
 import java.sql.Date;
 import org.junit.Test;

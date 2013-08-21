@@ -1,5 +1,5 @@
 /* @author chad */
-package knockknockserver.entities;
+package knockknockserver.model;
 
 import java.awt.Image;
 import java.sql.Date;

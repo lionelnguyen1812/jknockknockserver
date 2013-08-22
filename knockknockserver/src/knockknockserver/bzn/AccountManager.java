@@ -13,7 +13,7 @@ public class AccountManager {
             String name_first,
             String name_last,
             String gender,
-            String email) throws SQLException {
+            String email) throws SQLException, ClassNotFoundException {
         int id = -1;
         Connection cnn = ConnectionUtil.getConnection();
         String sql = "{call INSERT_USER_ACCOUNT(?, ?, ?, ?, ?, ?, ?)}";
@@ -27,6 +27,7 @@ public class AccountManager {
         cstm.registerOutParameter(7, java.sql.Types.INTEGER);
         cstm.execute();
         id = cstm.getInt(7);
+        cnn.close();
         return id;
     }
 
@@ -37,18 +38,19 @@ public class AccountManager {
             String name_first,
             String name_last,
             String gender,
-            String email) throws SQLException {
+            String email) throws SQLException, ClassNotFoundException {
         Connection cnn = ConnectionUtil.getConnection();
-        String sql = "{call INSERT_USER_ACCOUNT(?, ?, ?, ?, ?, ?, ?)}";
+        String sql = "{call UPDATE_USER_ACCOUNT(?, ?, ?, ?, ?, ?, ?)}";
         CallableStatement cstm = cnn.prepareCall(sql);
-        cstm.setString(1, user_name);
-        cstm.setString(2, encriptedPassword);
-        cstm.setString(3, name_first);
-        cstm.setString(4, name_last);
-        cstm.setString(5, gender);
-        cstm.setString(6, email);
-        cstm.registerOutParameter(7, java.sql.Types.INTEGER);
-       int row =  cstm.executeUpdate();
+        cstm.setInt(1, id);
+        cstm.setString(2, user_name);
+        cstm.setString(3, encriptedPassword);
+        cstm.setString(4, name_first);
+        cstm.setString(5, name_last);
+        cstm.setString(6, gender);
+        cstm.setString(7, email);
+        int row = cstm.executeUpdate();
+        cnn.close();
         return row;
     }
 }

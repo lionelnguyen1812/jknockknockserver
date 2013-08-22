@@ -5,14 +5,12 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import knockknockserver.ServerLogger;
-import knockknockserver.bzn.DBConnector;
 
 public class ResponseFactory implements Runnable {
 
     ServerLogger logger;
     DatagramSocket socket = null;
     DatagramPacket packet = null;
-    DBConnector dbconnector = null;
 
     public ResponseFactory(DatagramSocket socket, DatagramPacket packet) {
         this.socket = socket;

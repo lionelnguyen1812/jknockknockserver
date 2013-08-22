@@ -125,11 +125,9 @@ create procedure UPDATE_USER_ACCOUNT @id int,
 	@name_first varchar(40),
 	@name_last varchar(40),
 	@gender char,
-	@email varchar(100),
-	@success bit out
+	@email varchar(100)
 as
 begin
-	begin try
 		update user_account
 		set [user_name] = @user_name,
 			[password] = @encripted_password,
@@ -138,13 +136,6 @@ begin
 			gender = @gender,
 			email = @email
 		where @id = [user_id];
-
-		set @success = 1;
-	end try
-
-	begin catch
-		set @success = 0;
-	end catch
 end
 go
 

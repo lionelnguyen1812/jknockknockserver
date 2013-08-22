@@ -1,6 +1,9 @@
 USE master
 GO
 
+DROP DATABASE chicklingslove
+GO
+
 CREATE DATABASE chicklingslove
 GO
 
@@ -8,18 +11,18 @@ USE chicklingslove
 GO
 
 CREATE TABLE user_account (
-	user_id INT identity NOT NULL,
-	user_name VARCHAR(40) NOT NULL,
-	password VARCHAR(40) NOT NULL,
+	[user_id] INT identity NOT NULL,
+	[user_name] VARCHAR(40) NOT NULL,
+	[password] VARCHAR(40) NOT NULL,
 	name_first VARCHAR(40) NOT NULL,
 	name_last VARCHAR(40) NOT NULL,
 	gender CHAR NOT NULL,
 	email VARCHAR(100) NOT NULL,
 	avatar VARCHAR(250) NOT NULL DEFAULT 'avatars/default.jpg',
 	active BIT NOT NULL DEFAULT 1,
-	online INT NOT NULL DEFAULT 1,
+	[online] INT NOT NULL DEFAULT 1,
 	time_stamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY (user_id)
+	primary key ([user_id])
 	)
 GO
 
@@ -125,16 +128,51 @@ BEGIN
 		SET @success = 0;
 	END CATCH
 END
+GO
 
 -------------------------------------------------------------
+CREATE TABLE friendslist (
+	friends_list_id INT PRIMARY KEY,
+	[user_id] INT,
+	friendship_id INT,
+	constraint fk_friendslist_user FOREIGN KEY ([user_id]) REFERENCES user_account(user_id)
+	)
+GO
+
 CREATE TABLE friendships (
 	friendship_id INT identity PRIMARY KEY,
-	user_id INT FOREIGN KEY REFERENCES user_account(user_id),
-	friend_id INT FOREIGN KEY REFERENCES user_account(user_id),
-	accepted BIT DEFAULT 0
+	friends_list_id INT,
+	user_id INT,
+	friend_id INT,
+	accepted BIT DEFAULT 0,
+	constraint fk_friendships_friendslist FOREIGN KEY (friends_list_id) REFERENCES friendslist(friends_list_id),
+	constraint fk_friendships_user FOREIGN KEY ([user_id]) REFERENCES user_account([user_id])
 	)
+GO
 
-CREATE TABLE friends_list (
-	friend_list_id INT identity NOT NULL,
-	NAME VARCHAR(40),
-	)
+ALTER TABLE friendslist ADD CONSTRAINT fk_friendslist_friendship FOREIGN KEY (friendship_id) REFERENCES friendships (friendship_id)
+GO
+
+CREATE PROC get_friends_list @id INT
+AS
+BEGIN
+	SELECT fs.friend_id,
+		fs.accepted
+	FROM friendships fs
+	WHERE fs.user_id = @id
+END
+GO
+
+CREATE PROC add_friend @id INT,
+	@friend_id INT,
+	@friendship_id INT out
+AS
+BEGIN
+	SELECT @friendship_id = fs.friendship_id
+	FROM friendships fs
+	WHERE fs.user_id = @id
+		AND fs.friend_id = @friend_id
+END
+GO
+
+

@@ -48,7 +48,7 @@ public class AccountManager {
         cstm.setString(5, gender);
         cstm.setString(6, email);
         cstm.registerOutParameter(7, java.sql.Types.INTEGER);
-        cstm.execute();
+       int row =  cstm.executeUpdate();
         return row;
     }
 }

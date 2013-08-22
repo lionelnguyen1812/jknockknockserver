@@ -127,8 +127,11 @@ BEGIN
 END
 
 -------------------------------------------------------------
-CREATE TABLE friend (
-	friend_id INT identity NOT NULL,
+CREATE TABLE friendships (
+	friendship_id INT identity PRIMARY KEY,
+	user_id INT FOREIGN KEY REFERENCES user_account(user_id),
+	friend_id INT FOREIGN KEY REFERENCES user_account(user_id),
+	accepted BIT DEFAULT 0
 	)
 
 CREATE TABLE friends_list (

@@ -1,40 +1,40 @@
-USE master
-GO
+use master
+go
 
-DROP DATABASE chicklingslove
-GO
+drop database chicklingslove
+go
 
-CREATE DATABASE chicklingslove
-GO
+create database chicklingslove
+go
 
-USE chicklingslove
-GO
+use chicklingslove
+go
 
-CREATE TABLE user_account (
-	[user_id] INT identity NOT NULL,
-	[user_name] VARCHAR(40) NOT NULL,
-	[password] VARCHAR(40) NOT NULL,
-	name_first VARCHAR(40) NOT NULL,
-	name_last VARCHAR(40) NOT NULL,
-	gender CHAR NOT NULL,
-	email VARCHAR(100) NOT NULL,
-	avatar VARCHAR(250) NOT NULL DEFAULT 'avatars/default.jpg',
-	active BIT NOT NULL DEFAULT 1,
-	[online] INT NOT NULL DEFAULT 1,
-	time_stamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+create table user_account (
+	[user_id] int identity not null,
+	[user_name] varchar(40) not null,
+	[password] varchar(40) not null,
+	name_first varchar(40) not null,
+	name_last varchar(40) not null,
+	gender char not null,
+	email varchar(100) not null,
+	avatar varchar(250) not null default 'avatars/default.jpg',
+	active bit not null default 1,
+	[online] int not null default 1,
+	time_stamp datetime not null default CURRENT_TIMESTAMP,
 	primary key ([user_id])
 	)
-GO
+go
 
-INSERT INTO user_account (
-	user_name,
+insert into user_account (
+	[user_name],
 	password,
 	name_first,
 	name_last,
 	gender,
 	email
 	)
-VALUES (
+values (
 	'anhntv',
 	'70FB874A43097A25234382390C0BAEB3',
 	'ntv',
@@ -42,52 +42,70 @@ VALUES (
 	'F',
 	'abc@xyz.now'
 	)
-GO
+go
+
+insert into user_account (
+	[user_name],
+	password,
+	name_first,
+	name_last,
+	gender,
+	email
+	)
+values (
+	'hunglm',
+	'70FB874A43097A25234382390C0BAEB3',
+	'hung',
+	'lm',
+	'M',
+	'abc@xyz.no'
+	)
+go
 
 --test
-SELECT *
-FROM user_account
-GO
+select *
+from user_account
+go
 
 --@final
-CREATE PROC LOGIN @uname VARCHAR(40),
-	@pwd VARCHAR(40),
-	@commit BIT out
-AS
-BEGIN
-	IF EXISTS (
-			SELECT *
-			FROM user_account
-			WHERE @uname = user_name
-				AND @pwd = password
+create procedure login @uname varchar(40),
+	@pwd varchar(40),
+	@commit bit out
+as
+begin
+	if exists (
+			select *
+			from user_account
+			where @uname = [user_name]
+				and @pwd = password
 			)
-		SET @commit = 1;
-	ELSE
-		SET @commit = 0;
-END
-GO
+		set @commit = 1;
+	else
+		set @commit = 0;
+end
+go
 
 --@final
-CREATE PROC INSERT_USER_ACCOUNT @user_name VARCHAR(40),
-	@encripted_password VARCHAR(40),
-	@name_first VARCHAR(40),
-	@name_last VARCHAR(40),
-	@gender CHAR,
-	@email VARCHAR(100),
-	@id INT out
-AS
-BEGIN
-	SET NOCOUNT ON;
+create procedure INSERT_USER_ACCOUNT @user_name varchar(40),
+	@encripted_password varchar(40),
+	@name_first varchar(40),
+	@name_last varchar(40),
+	@gender char,
+	@email varchar(100),
+	@id int out
+as
+begin
+	set nocount on;
 
-	INSERT INTO user_account (
-		user_name,
+	insert into user_account (
+		[user_name],
 		password,
 		name_first,
 		name_last,
 		gender,
 		email
 		)
-	VALUES (
+	values (
 		@user_name,
 		@encripted_password,
 		@name_first,
@@ -96,83 +114,99 @@ BEGIN
 		@email
 		);
 
-	SELECT @id = SCOPE_IDENTITY();
-END
-GO
+	set @id = SCOPE_IDENTITY();
+end
+go
 
 --@final
-CREATE PROC UPDATE_USER_ACCOUNT @id INT,
-	@user_name VARCHAR(40),
-	@encripted_password VARCHAR(40),
-	@name_first VARCHAR(40),
-	@name_last VARCHAR(40),
-	@gender CHAR,
-	@email VARCHAR(100),
-	@success BIT out
-AS
-BEGIN
-	BEGIN TRY
-		UPDATE user_account
-		SET user_name = @user_name,
+create procedure UPDATE_USER_ACCOUNT @id int,
+	@user_name varchar(40),
+	@encripted_password varchar(40),
+	@name_first varchar(40),
+	@name_last varchar(40),
+	@gender char,
+	@email varchar(100),
+	@success bit out
+as
+begin
+	begin try
+		update user_account
+		set [user_name] = @user_name,
 			[password] = @encripted_password,
 			name_first = @name_first,
 			name_last = @name_last,
 			gender = @gender,
 			email = @email
-		WHERE @id = user_id;
+		where @id = [user_id];
 
-		SET @success = 1;
-	END TRY
+		set @success = 1;
+	end try
 
-	BEGIN CATCH
-		SET @success = 0;
-	END CATCH
-END
-GO
+	begin catch
+		set @success = 0;
+	end catch
+end
+go
 
 -------------------------------------------------------------
-CREATE TABLE friendslist (
-	friends_list_id INT PRIMARY KEY,
-	[user_id] INT,
-	friendship_id INT,
-	constraint fk_friendslist_user FOREIGN KEY ([user_id]) REFERENCES user_account(user_id)
+create table friendships (
+	friendship_id int identity primary key,
+	[user_id] int,
+	friend_id int,
+	accepted bit default 0,
+	constraint fk_friendships_user foreign key ([user_id]) references user_account([user_id]),
+	constraint unique_friendship_pair unique (
+		[user_id],
+		friend_id
+		)
 	)
-GO
+go
 
-CREATE TABLE friendships (
-	friendship_id INT identity PRIMARY KEY,
-	friends_list_id INT,
-	user_id INT,
-	friend_id INT,
-	accepted BIT DEFAULT 0,
-	constraint fk_friendships_friendslist FOREIGN KEY (friends_list_id) REFERENCES friendslist(friends_list_id),
-	constraint fk_friendships_user FOREIGN KEY ([user_id]) REFERENCES user_account([user_id])
-	)
-GO
-
-ALTER TABLE friendslist ADD CONSTRAINT fk_friendslist_friendship FOREIGN KEY (friendship_id) REFERENCES friendships (friendship_id)
-GO
-
-CREATE PROC get_friends_list @id INT
-AS
-BEGIN
-	SELECT fs.friend_id,
+create procedure get_all_friends @id int
+as
+begin
+	select fs.friend_id,
 		fs.accepted
-	FROM friendships fs
-	WHERE fs.user_id = @id
-END
-GO
+	from friendships fs
+	where fs.[user_id] = @id
+end
+go
 
-CREATE PROC add_friend @id INT,
-	@friend_id INT,
-	@friendship_id INT out
-AS
-BEGIN
-	SELECT @friendship_id = fs.friendship_id
-	FROM friendships fs
-	WHERE fs.user_id = @id
-		AND fs.friend_id = @friend_id
-END
-GO
+create procedure add_friend @id int,
+	@friend_id int,
+	@friendship_id int out
+as
+begin
+	insert into friendships (
+		[user_id],
+		friend_id
+		)
+	values (
+		@id,
+		@friend_id
+		);
+
+	set @friendship_id = SCOPE_IDENTITY();
+end
+go
+
+create procedure unfriend @user_id int,
+	@friend_id int,
+	@success bit out
+as
+begin
+	begin try
+		delete friendships
+		where [user_id] = @user_id
+			and friend_id = @friend_id;
+
+		set @success = 1;
+	end try
+
+	begin catch
+		set @success = 0;
+	end catch
+end
+go
 
 

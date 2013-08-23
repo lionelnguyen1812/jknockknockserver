@@ -37,12 +37,39 @@ public class FriendsManager {
         return friendslist;
     }
     
-    public boolean addFriend(int user_id, int friend_id) throws SQLException, ClassNotFoundException{
+    public boolean requestFriend(int user_id, int friend_id) throws SQLException, ClassNotFoundException{
         Connection cnn = ConnectionUtil.getConnection();
         String sql = "{call add_friend(?, ?)}";
         CallableStatement cstm = cnn.prepareCall(sql);
         cstm.setInt(1, user_id);
         cstm.setInt(2, friend_id);
+        return cstm.executeUpdate() > 0;
+    }
+    
+    public boolean unfriend(int user_id, int friend_id) throws ClassNotFoundException, SQLException{
+        Connection cnn = ConnectionUtil.getConnection();
+        String sql = "{call unfriend(?, ?)}";
+        CallableStatement cstm = cnn.prepareCall(sql);
+        cstm.setInt(1, user_id);
+        cstm.setInt(2, friend_id);
+        return cstm.executeUpdate() > 0;
+    }
+    
+    public boolean acceptFriendRequest(int user_id, int request_from_id) throws ClassNotFoundException, SQLException{
+        Connection cnn = ConnectionUtil.getConnection();
+        String sql = "{call accept_friendship_request(?, ?)}";
+        CallableStatement cstm = cnn.prepareCall(sql);
+        cstm.setInt(1, user_id);
+        cstm.setInt(2, request_from_id);
+        return cstm.executeUpdate() > 0;
+    }
+    
+    public boolean removeFriendRequest(int user_id, int request_from_id) throws ClassNotFoundException, SQLException{
+        Connection cnn = ConnectionUtil.getConnection();
+        String sql = "{call remove_friendship_request(?, ?)}";
+        CallableStatement cstm = cnn.prepareCall(sql);
+        cstm.setInt(1, user_id);
+        cstm.setInt(2, request_from_id);
         return cstm.executeUpdate() > 0;
     }
 }

@@ -81,4 +81,17 @@ begin
 end
 go
 
+drop proc remove_friendship_request
+go
+
+create proc remove_friendship_request @user_id int,
+	@request_from_id int
+as
+begin
+	delete friendships
+	where friend_id = @user_id
+		and [user_id] = @request_from_id
+end
+go
+
 

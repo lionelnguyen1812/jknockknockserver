@@ -22,7 +22,7 @@ public class FriendsManagerTest {
     }
     
     @Test
-    public void testAddFriend() throws Exception {
+    public void testRequestFriend() throws Exception {
 //        int user_id = 2;
 //        int friend_id = 3;
 //        FriendsManager instance = new FriendsManager();
@@ -32,4 +32,42 @@ public class FriendsManagerTest {
         
         assertTrue(true);
     }
+    
+    @Test
+    public void testUnFriend() throws Exception {
+//        int user_id = 2;
+//        int friend_id = 3;
+//        FriendsManager instance = new FriendsManager();
+//        boolean expResult = true;
+//        boolean result = instance.unfriend(user_id, friend_id);
+//        assertEquals(expResult, result);
+        
+        assertTrue(true);
+    }
+    
+    @Test
+    public void testAcceptFriendRequest() throws Exception {
+//        int user_id = 2;
+//        int request_from_id = 1;
+//        FriendsManager instance = new FriendsManager();
+//        boolean expResult = true;
+//        boolean result = instance.acceptFriendRequest(user_id, request_from_id);
+//        assertEquals(expResult, result);
+        
+        assertTrue(true);
+    }
+    
+    @Test
+    public void testRemoveFriendRequest() throws Exception {
+//        int user_id = 3;
+//        int request_from_id = 1;
+//        FriendsManager instance = new FriendsManager();
+//        boolean expResult = true;
+//        boolean result = instance.removeFriendRequest(user_id, request_from_id);
+//        assertEquals(expResult, result);
+        
+        assertTrue(true);
+    }
+    
+    
 }

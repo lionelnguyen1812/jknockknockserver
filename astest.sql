@@ -6,9 +6,11 @@ select * from Posts
 select * from Comment
 select * from like_post
 select * from like_comment
+select * from friendships
 
 delete  from like_post
 delete  from like_comment
+
 
 insert into Posts (user_id, text)
 values (1, 'day la post thu nhat')

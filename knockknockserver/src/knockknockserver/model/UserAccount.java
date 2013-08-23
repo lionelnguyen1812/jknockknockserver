@@ -12,12 +12,12 @@ public class UserAccount {
     private String last_Name;
     private char gender;
     private String email;
-    private Image avatar;
+    private String avatar;
     private boolean active;
     private boolean online;
     private Date timestamp;
 
-    public UserAccount(String user_ID, String user_Name, String password, String first_Name, String last_Name, char gender, String email, Image avatar, boolean active, boolean online, Date timestamp) {
+    public UserAccount(String user_ID, String user_Name, String password, String first_Name, String last_Name, char gender, String email, String avatar, boolean active, boolean online, Date timestamp) {
         this.user_ID = user_ID;
         this.user_Name = user_Name;
         this.password = password;
@@ -87,11 +87,11 @@ public class UserAccount {
         this.email = email;
     }
 
-    public Image getAvatar() {
+    public String getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(Image avatar) {
+    public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
 

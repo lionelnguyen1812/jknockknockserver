@@ -17,13 +17,22 @@ go
 drop procedure get_all_friends
 go
 
-create procedure get_all_friends @id int
+create procedure get_all_friends @user_id int
 as
 begin
 	select fs.friend_id,
+		ua.[user_name],
+		ua.name_first,
+		ua.name_last,
+		ua.gender,
+		ua.email,
+		ua.avatar,
+		ua.[online],
 		fs.accepted
 	from friendships fs
-	where fs.[user_id] = @id
+	inner join user_account ua
+		on fs.friend_id = ua.[user_id]
+	where fs.[user_id] = @user_id
 end
 go
 
@@ -31,8 +40,7 @@ drop procedure add_friend
 go
 
 create procedure add_friend @id int,
-	@friend_id int,
-	@friendship_id int out
+	@friend_id int
 as
 begin
 	insert into friendships (
@@ -43,8 +51,6 @@ begin
 		@id,
 		@friend_id
 		);
-
-	set @friendship_id = SCOPE_IDENTITY();
 end
 go
 

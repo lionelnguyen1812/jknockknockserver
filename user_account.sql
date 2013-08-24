@@ -86,7 +86,7 @@ end
 go
 
 --@final
-create procedure INSERT_USER_ACCOUNT @user_name varchar(40),
+create procedure insert_user_account @user_name varchar(40),
 	@encripted_password varchar(40),
 	@name_first varchar(40),
 	@name_last varchar(40),
@@ -119,7 +119,7 @@ end
 go
 
 --@final
-create procedure UPDATE_USER_ACCOUNT @id int,
+create procedure update_user_account @id int,
 	@user_name varchar(40),
 	@encripted_password varchar(40),
 	@name_first varchar(40),
@@ -128,20 +128,32 @@ create procedure UPDATE_USER_ACCOUNT @id int,
 	@email varchar(100)
 as
 begin
-		update user_account
-		set [user_name] = @user_name,
-			[password] = @encripted_password,
-			name_first = @name_first,
-			name_last = @name_last,
-			gender = @gender,
-			email = @email
-		where @id = [user_id];
+	update user_account
+	set [user_name] = @user_name,
+		[password] = @encripted_password,
+		name_first = @name_first,
+		name_last = @name_last,
+		gender = @gender,
+		email = @email
+	where @id = [user_id];
 end
 go
 
--------------------------------------------------------------
+create procedure deactive_account @user_id int
+as
+begin
+	update user_account
+	set active = 0
+	where [user_id] = @user_id;
+end
+go
 
-
-
-----------------------------------------------------------------
+create procedure active_account @user_id int
+as
+begin
+	update user_account
+	set active = 1
+	where [user_id] = @user_id;
+end
+go
 

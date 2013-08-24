@@ -53,4 +53,20 @@ public class AccountManager {
         cnn.close();
         return row;
     }
+    
+    public boolean deactiveAccount(int user_id) throws ClassNotFoundException, SQLException{
+        Connection cnn = ConnectionUtil.getConnection();
+        String sql = "{call deactive_account(?)}";
+        CallableStatement cstm = cnn.prepareCall(sql);
+        cstm.setInt(1, user_id);
+        return cstm.executeUpdate() > 0;
+    }
+    
+    public boolean activeAccount(int user_id) throws ClassNotFoundException, SQLException{
+        Connection cnn = ConnectionUtil.getConnection();
+        String sql = "{call active_account(?)}";
+        CallableStatement cstm = cnn.prepareCall(sql);
+        cstm.setInt(1, user_id);
+        return cstm.executeUpdate() > 0;
+    }
 }

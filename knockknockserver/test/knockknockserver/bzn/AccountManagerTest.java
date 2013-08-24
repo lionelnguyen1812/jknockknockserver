@@ -8,12 +8,12 @@ import static org.junit.Assert.*;
  * @author chad
  */
 public class AccountManagerTest {
-    
+
     public AccountManagerTest() {
     }
 
     @Test
-    public void testCreateUseAccount() throws Exception {
+    public void testCreateUserAccount() throws Exception {
 //        System.out.println("createUseAccount");
 //        String user_name = "hungncsc";
 //        String encriptedPassword = "asdfawefgawiolmnsdfvjkhsd";
@@ -25,12 +25,12 @@ public class AccountManagerTest {
 //        int expResult = 7;
 //        int result = instance.createUseAccount(user_name, encriptedPassword, name_first, name_last, gender, email);
 //        assertEquals(expResult, result);
-        
+
         assertTrue(true);
     }
-    
+
     @Test
-    public void testUpdateUseAccount() throws Exception {
+    public void testUpdateUserAccount() throws Exception {
 //        System.out.println("updateUseAccount");
 //        int id = 3;
 //        String user_name = "hungncong";
@@ -42,7 +42,25 @@ public class AccountManagerTest {
 //        AccountManager instance = new AccountManager();
 //        int result = instance.updateUseAccount(id, user_name, encriptedPassword, name_first, name_last, gender, email);
 //        assertEquals(1, result);
-        
+
         assertTrue(true);
     }
+
+    @Test
+    public void testDeactiveUserAccount() throws Exception {
+//        int user_id = 3;
+//        AccountManager instance = new AccountManager();
+//        assertTrue(instance.deactiveAccount(user_id));
+//        
+        assertTrue(true);
+    }
+    
+    public void testActiveUserAccount() throws Exception {
+        int user_id = 3;
+        AccountManager instance = new AccountManager();
+        assertTrue(instance.activeAccount(user_id));
+        
+//        assertTrue(true);
+    }
+    
 }

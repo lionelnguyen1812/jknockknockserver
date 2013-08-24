@@ -13,7 +13,7 @@ public class AccountManager {
             String name_first,
             String name_last,
             String gender,
-            String email) throws SQLException, ClassNotFoundException {
+            String email) throws SQLException, Exception {
         int id = -1;
         Connection cnn = ConnectionUtil.getConnection();
         String sql = "{call INSERT_USER_ACCOUNT(?, ?, ?, ?, ?, ?, ?)}";
@@ -38,7 +38,7 @@ public class AccountManager {
             String name_first,
             String name_last,
             String gender,
-            String email) throws SQLException, ClassNotFoundException {
+            String email) throws SQLException, Exception {
         Connection cnn = ConnectionUtil.getConnection();
         String sql = "{call UPDATE_USER_ACCOUNT(?, ?, ?, ?, ?, ?, ?)}";
         CallableStatement cstm = cnn.prepareCall(sql);

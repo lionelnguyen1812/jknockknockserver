@@ -8,25 +8,43 @@ import java.util.logging.Logger;
 
 public class PostManager {
 
-    public int createPost(int userID, String text, String link, String type, String timeStamp) {
-        try {
-            Connection conn = ConnectionUtil.getConnection();
-            String sql = "{call add_post(?,?,?,?,?)}";
-            CallableStatement cstm = conn.prepareCall(sql);
-            cstm.setInt(1, userID);
-            cstm.setString(2, text);
-            cstm.setString(3, link);
-            cstm.setString(4, type);
-            cstm.setString(5, timeStamp);
-            int row = cstm.executeUpdate();
-            return row;
-        } catch (SQLException ex) {
-            Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return -1;
+
+    public int createPost(int userID, String text, String link, String type) throws Exception {
+        int postID = -1;
+
+        Connection conn = ConnectionUtil.getConnection();
+        String sql = "{call add_post(?,?,?,?,?)}";
+        CallableStatement cstm = conn.prepareCall(sql);
+        cstm.registerOutParameter(1, java.sql.Types.INTEGER);
+        cstm.setInt(2, userID);
+        cstm.setString(3, text);
+        cstm.setString(4, link);
+        cstm.setString(5, type);
+        cstm.execute();
+        postID = cstm.getInt(1);
+        return postID;
+
     }
+//    public int createPost(int userID, String text, String link, String type, String timeStamp) {
+//        try {
+//            Connection conn = ConnectionUtil.getConnection();
+//            String sql = "{call add_post(?,?,?,?,?)}";
+//            CallableStatement cstm = conn.prepareCall(sql);
+//            cstm.setInt(1, userID);
+//            cstm.setString(2, text);
+//            cstm.setString(3, link);
+//            cstm.setString(4, type);
+//            cstm.setString(5, timeStamp);
+//            int row = cstm.executeUpdate();
+//            return row;
+//        } catch (SQLException ex) {
+//            Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (Exception ex) {
+//            Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return -1;
+//
+//    }
 
     public int removePost(int postID) {
         try {
@@ -38,13 +56,14 @@ public class PostManager {
             return row;
         } catch (SQLException ex) {
             Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return -1;
     }
 
     public int createComment(int userID, int postID, String content) {
+
         try {
             Connection conn = ConnectionUtil.getConnection();
             String sql = "call add_comment(?,?,?)";
@@ -56,13 +75,14 @@ public class PostManager {
             return row;
         } catch (SQLException ex) {
             Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return -1;
     }
 
     public int removeComment(int cmtID) {
+
         try {
             Connection conn = ConnectionUtil.getConnection();
             String sql = "call remove_comment(?)";
@@ -72,7 +92,7 @@ public class PostManager {
             return row;
         } catch (SQLException ex) {
             Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return -1;
@@ -90,7 +110,7 @@ public class PostManager {
 
         } catch (SQLException ex) {
             Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
@@ -107,7 +127,7 @@ public class PostManager {
 
         } catch (SQLException ex) {
             Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
@@ -124,7 +144,7 @@ public class PostManager {
 
         } catch (SQLException ex) {
             Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -142,7 +162,7 @@ public class PostManager {
 
         } catch (SQLException ex) {
             Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         

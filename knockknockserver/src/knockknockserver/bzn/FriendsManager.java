@@ -11,7 +11,7 @@ import knockknockserver.model.Friend;
 
 public class FriendsManager {
     
-    public List<Friend> getAllFriends(int user_id) throws ClassNotFoundException, SQLException{
+    public List<Friend> getAllFriends(int user_id) throws Exception, SQLException{
         List<Friend> friendslist = new ArrayList<>();
         
         Connection cnn = ConnectionUtil.getConnection();
@@ -37,7 +37,7 @@ public class FriendsManager {
         return friendslist;
     }
     
-    public boolean requestFriend(int user_id, int friend_id) throws SQLException, ClassNotFoundException{
+    public boolean requestFriend(int user_id, int friend_id) throws SQLException, Exception{
         Connection cnn = ConnectionUtil.getConnection();
         String sql = "{call add_friend(?, ?)}";
         CallableStatement cstm = cnn.prepareCall(sql);
@@ -46,7 +46,7 @@ public class FriendsManager {
         return cstm.executeUpdate() > 0;
     }
     
-    public boolean unfriend(int user_id, int friend_id) throws ClassNotFoundException, SQLException{
+    public boolean unfriend(int user_id, int friend_id) throws Exception, SQLException{
         Connection cnn = ConnectionUtil.getConnection();
         String sql = "{call unfriend(?, ?)}";
         CallableStatement cstm = cnn.prepareCall(sql);
@@ -55,7 +55,7 @@ public class FriendsManager {
         return cstm.executeUpdate() > 0;
     }
     
-    public boolean acceptFriendRequest(int user_id, int request_from_id) throws ClassNotFoundException, SQLException{
+    public boolean acceptFriendRequest(int user_id, int request_from_id) throws Exception, SQLException{
         Connection cnn = ConnectionUtil.getConnection();
         String sql = "{call accept_friendship_request(?, ?)}";
         CallableStatement cstm = cnn.prepareCall(sql);
@@ -64,7 +64,7 @@ public class FriendsManager {
         return cstm.executeUpdate() > 0;
     }
     
-    public boolean removeFriendRequest(int user_id, int request_from_id) throws ClassNotFoundException, SQLException{
+    public boolean removeFriendRequest(int user_id, int request_from_id) throws Exception, SQLException{
         Connection cnn = ConnectionUtil.getConnection();
         String sql = "{call remove_friendship_request(?, ?)}";
         CallableStatement cstm = cnn.prepareCall(sql);

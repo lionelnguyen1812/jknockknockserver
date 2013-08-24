@@ -1,0 +1,46 @@
+﻿Merge branch 'master' of https://github.com/lionelnguyen1812/jknockknockserver
+
+Conflicts:
+	knockknockserver/src/knockknockserver/bzn/ConnectionUtil.java
+	knockknockserver/src/knockknockserver/bzn/PostManager.java
+	knockknockserver/test/knockknockserver/bzn/PostManagerTest.java
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch and 'origin/master' have diverged,
+# and have 2 and 6 different commits each, respectively.
+#   (use "git pull" to merge the remote branch into yours)
+#
+# All conflicts fixed but you are still merging.
+#   (use "git commit" to conclude merge)
+#
+# Changes to be committed:
+#
+#	modified:   .gitignore
+#	modified:   Like.sql
+#	modified:   Post.sql
+#	new file:   astest.sql
+#	new file:   friendship.sql
+#	modified:   knockknockserver/src/knockknockserver/bzn/AccountManager.java
+#	modified:   knockknockserver/src/knockknockserver/bzn/ConnectionUtil.java
+#	deleted:    knockknockserver/src/knockknockserver/bzn/DBConnector.java
+#	new file:   knockknockserver/src/knockknockserver/bzn/FriendsManager.java
+#	modified:   knockknockserver/src/knockknockserver/bzn/PostManager.java
+#	new file:   knockknockserver/src/knockknockserver/model/Friend.java
+#	new file:   knockknockserver/src/knockknockserver/model/Session.java
+#	modified:   knockknockserver/src/knockknockserver/model/UserAccount.java
+#	modified:   knockknockserver/src/knockknockserver/netio/ResponseFactory.java
+#	modified:   knockknockserver/test/knockknockserver/bzn/AccountManagerTest.java
+#	new file:   knockknockserver/test/knockknockserver/bzn/FriendsManagerTest.java
+#	modified:   knockknockserver/test/knockknockserver/bzn/PostManagerTest.java
+#	deleted:    knockknockserver/test/knockknockserver/entities/UserAccountTest.java
+#	modified:   user_account.sql
+#
+

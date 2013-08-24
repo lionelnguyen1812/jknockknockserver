@@ -42,8 +42,8 @@ public class ResponseFactory implements Runnable {
 
     @Override
     public void run() {
-        String needToResponse = makeResponse();
-        byte[] buf = needToResponse.getBytes();
+        String tobeResponse = makeResponse();
+        byte[] buf = tobeResponse.getBytes();
         DatagramPacket packetToResponse = new DatagramPacket(buf, buf.length, packet.getAddress(), packet.getPort());
         try {
             socket.send(packetToResponse);

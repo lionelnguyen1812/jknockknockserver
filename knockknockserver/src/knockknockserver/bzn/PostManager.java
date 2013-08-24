@@ -4,6 +4,7 @@
  */
 package knockknockserver.bzn;
 
+import com.sun.org.apache.xerces.internal.impl.dtd.models.CMStateSet;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,25 +16,25 @@ import java.util.logging.Logger;
  * @author Van
  */
 public class PostManager {
-    public int createPost(int userID,String text,String link,String type,String timeStamp){
-        try {
-            Connection conn = ConnectionUtil.getConnection();
-            String sql = "{call add_post(?,?,?,?,?)}";
-            CallableStatement cstm = conn.prepareCall(sql);
-            cstm.setInt(1, userID);
-            cstm.setString(2, text);
-            cstm.setString(3, link);
-            cstm.setString(4, type);
-            cstm.setString(5, timeStamp);
-            int row = cstm.executeUpdate();
-            return row;
-        } catch (SQLException ex) {
-            Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return -1;
+
+    public int createPost(int userID, String text, String link, String type) throws SQLException {
+        int postID = -1;
+
+        Connection conn = ConnectionUtil.getConnection();
+        String sql = "{call add_post(?,?,?,?,?)}";
+        CallableStatement cstm = conn.prepareCall(sql);
+        cstm.registerOutParameter(1, java.sql.Types.INTEGER);
+        cstm.setInt(2, userID);
+        cstm.setString(3, text);
+        cstm.setString(4, link);
+        cstm.setString(5, type);
+        cstm.execute();
+        postID = cstm.getInt(1);
+        return postID;
+
     }
-    
-    public int removePost(int postID){
+
+    public int removePost(int postID) {
         try {
             Connection conn = ConnectionUtil.getConnection();
             String sql = "call  remove_post(?)";
@@ -46,8 +47,8 @@ public class PostManager {
         }
         return -1;
     }
-    
-    public int createComment(int userID,int postID,String content){
+
+    public int createComment(int userID, int postID, String content) {
         Connection conn = ConnectionUtil.getConnection();
         String sql = "call add_comment(?,?,?)";
         try {
@@ -62,8 +63,8 @@ public class PostManager {
         }
         return -1;
     }
-    
-    public int removeComment(int cmtID){
+
+    public int removeComment(int cmtID) {
         Connection conn = ConnectionUtil.getConnection();
         String sql = "call remove_comment(?)";
         try {

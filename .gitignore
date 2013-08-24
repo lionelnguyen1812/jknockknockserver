@@ -6,3 +6,4 @@
 *.ear
 /knockknockserver/nbproject/private/
 /knockknockserver/build/
+/knockknockserver/dist/

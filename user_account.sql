@@ -125,11 +125,9 @@ create procedure UPDATE_USER_ACCOUNT @id int,
 	@name_first varchar(40),
 	@name_last varchar(40),
 	@gender char,
-	@email varchar(100),
-	@success bit out
+	@email varchar(100)
 as
 begin
-	begin try
 		update user_account
 		set [user_name] = @user_name,
 			[password] = @encripted_password,
@@ -138,76 +136,11 @@ begin
 			gender = @gender,
 			email = @email
 		where @id = [user_id];
-
-		set @success = 1;
-	end try
-
-	begin catch
-		set @success = 0;
-	end catch
 end
 go
 
 -------------------------------------------------------------
-create table friendships (
-	friendship_id int identity primary key,
-	[user_id] int,
-	friend_id int,
-	accepted bit default 0,
-	constraint fk_friendships_user foreign key ([user_id]) references user_account([user_id]),
-	constraint unique_friendship_pair unique (
-		[user_id],
-		friend_id
-		)
-	)
-go
 
-create procedure get_all_friends @id int
-as
-begin
-	select fs.friend_id,
-		fs.accepted
-	from friendships fs
-	where fs.[user_id] = @id
-end
-go
-
-create procedure add_friend @id int,
-	@friend_id int,
-	@friendship_id int out
-as
-begin
-	insert into friendships (
-		[user_id],
-		friend_id
-		)
-	values (
-		@id,
-		@friend_id
-		);
-
-	set @friendship_id = SCOPE_IDENTITY();
-end
-go
-
-create procedure unfriend @user_id int,
-	@friend_id int,
-	@success bit out
-as
-begin
-	begin try
-		delete friendships
-		where [user_id] = @user_id
-			and friend_id = @friend_id;
-
-		set @success = 1;
-	end try
-
-	begin catch
-		set @success = 0;
-	end catch
-end
-go
 
 
 ----------------------------------------------------------------

@@ -1,23 +1,15 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package knockknockserver.bzn;
 
-import com.sun.org.apache.xerces.internal.impl.dtd.models.CMStateSet;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Van
- */
 public class PostManager {
 
-    public int createPost(int userID, String text, String link, String type) throws SQLException {
+
+    public int createPost(int userID, String text, String link, String type) throws Exception {
         int postID = -1;
 
         Connection conn = ConnectionUtil.getConnection();
@@ -33,6 +25,26 @@ public class PostManager {
         return postID;
 
     }
+//    public int createPost(int userID, String text, String link, String type, String timeStamp) {
+//        try {
+//            Connection conn = ConnectionUtil.getConnection();
+//            String sql = "{call add_post(?,?,?,?,?)}";
+//            CallableStatement cstm = conn.prepareCall(sql);
+//            cstm.setInt(1, userID);
+//            cstm.setString(2, text);
+//            cstm.setString(3, link);
+//            cstm.setString(4, type);
+//            cstm.setString(5, timeStamp);
+//            int row = cstm.executeUpdate();
+//            return row;
+//        } catch (SQLException ex) {
+//            Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (Exception ex) {
+//            Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return -1;
+//
+//    }
 
     public int removePost(int postID) {
         try {
@@ -44,14 +56,17 @@ public class PostManager {
             return row;
         } catch (SQLException ex) {
             Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return -1;
     }
 
     public int createComment(int userID, int postID, String content) {
-        Connection conn = ConnectionUtil.getConnection();
-        String sql = "call add_comment(?,?,?)";
+
         try {
+            Connection conn = ConnectionUtil.getConnection();
+            String sql = "call add_comment(?,?,?)";
             CallableStatement cstm = conn.prepareCall(sql);
             cstm.setInt(1, userID);
             cstm.setInt(2, postID);
@@ -60,21 +75,97 @@ public class PostManager {
             return row;
         } catch (SQLException ex) {
             Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return -1;
     }
 
     public int removeComment(int cmtID) {
-        Connection conn = ConnectionUtil.getConnection();
-        String sql = "call remove_comment(?)";
+
         try {
+            Connection conn = ConnectionUtil.getConnection();
+            String sql = "call remove_comment(?)";
             CallableStatement cstm = conn.prepareCall(sql);
             cstm.setInt(1, cmtID);
             int row = cstm.executeUpdate();
             return row;
         } catch (SQLException ex) {
             Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return -1;
+    }
+
+    //phan anh lam tu day tro xuong
+    public boolean likePost(int userID, int postID) {
+        try {
+            Connection conn = ConnectionUtil.getConnection();
+            String sql = "{call do_like_post(?, ?)}";
+            CallableStatement cstm = conn.prepareCall(sql);
+            cstm.setInt(1, userID);
+            cstm.setInt(2, postID);
+            return cstm.executeUpdate() > 0;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
+    public boolean likeComment(int userID, int cmtID) {
+        try {
+            Connection conn = ConnectionUtil.getConnection();
+            String sql = "{call do_like_comment(?, ?)}";
+            CallableStatement cstm = conn.prepareCall(sql);
+            cstm.setInt(1, userID);
+            cstm.setInt(2, cmtID);
+            return cstm.executeUpdate() > 0;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
+    public boolean unlikePost(int userID, int postID){
+        try {
+            Connection conn = ConnectionUtil.getConnection();
+            String sql = "{call do_unlike_post(?, ?)}";
+            CallableStatement cstm = conn.prepareCall(sql);
+            cstm.setInt(1, userID);
+            cstm.setInt(2, postID);
+            return cstm.executeUpdate() > 0;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return false;
+    }
+    
+    public boolean unlikeComment(int userID, int cmtID){
+        try {
+            Connection conn = ConnectionUtil.getConnection();
+            String sql = "{call do_unlike_comment(?, ?)}";
+            CallableStatement cstm = conn.prepareCall(sql);
+            cstm.setInt(1, userID);
+            cstm.setInt(2, cmtID);
+            return cstm.executeUpdate() > 0;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(PostManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return false;
     }
 }

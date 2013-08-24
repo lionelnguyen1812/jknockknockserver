@@ -23,7 +23,7 @@ public class ConnectionUtilTest {
         try {
             Connection cnn = ConnectionUtil.getConnection();
             result = cnn.getCatalog();
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(ConnectionUtilTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         assertEquals("chicklingslove", result);

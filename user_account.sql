@@ -26,6 +26,9 @@ create table user_account (
 	)
 go
 
+alter table user_account add constraint unique_user_account_username unique ([user_name])
+go
+
 insert into user_account (
 	[user_name],
 	password,
@@ -68,20 +71,21 @@ from user_account
 go
 
 --@final
-create procedure login @uname varchar(40),
+create procedure [login] @uname varchar(40),
 	@pwd varchar(40),
-	@commit bit out
+	@user_id int out
 as
 begin
-	if exists (
-			select *
-			from user_account
-			where @uname = [user_name]
-				and @pwd = password
-			)
-		set @commit = 1;
-	else
-		set @commit = 0;
+	declare @id int;
+
+	set @id = - 1;
+
+	select @id = ua.[user_id]
+	from user_account ua
+	where [user_name] = 'anhnt'
+		and [password] = '70FB874A43097A25234382390C0BAEB3';
+
+	set @user_id = @id;
 end
 go
 
@@ -156,4 +160,5 @@ begin
 	where [user_id] = @user_id;
 end
 go
+
 

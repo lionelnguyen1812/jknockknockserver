@@ -6,7 +6,7 @@ import java.util.List;
 import knockknockserver.model.Session;
 
 public class SessionsManager {
-    List<Session> list;
+    private List<Session> list;
 
     public SessionsManager() {
         this.list = new ArrayList<>();
@@ -17,6 +17,13 @@ public class SessionsManager {
         return s.getIdent();
     }
     
-    
+    public String getIdent(int id){
+        for(Session s: list){
+            if (s.getUser_id() == id){
+                return s.getIdent();
+            }
+        }
+        return "";
+    }
     
 }

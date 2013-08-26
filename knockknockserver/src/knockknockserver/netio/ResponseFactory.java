@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import knockknockserver.ServerLogger;
+import knockknockserver.bzn.AccountConnector;
+import knockknockserver.bzn.SessionsManager;
+import knockknockserver.model.Session;
 
 public class ResponseFactory implements Runnable {
 
@@ -18,11 +21,21 @@ public class ResponseFactory implements Runnable {
         this.logger = new ServerLogger("Responder Logger");
     }
 
-    public String responToLoginRequest(String userID, String encryptedPassword){
-        String response = "";
+    public String responToLoginRequest(String user_name, String encryptedPassword){
+        StringBuilder response = new StringBuilder();
         
+        int user_id;
+        user_id = new AccountConnector().login(user_name, encryptedPassword);
+        if (user_id > 0){
+            SessionsManager.addSession(user_id);
+            response.append("sessionid;");
+            response.append(user_id);
+            response.append(";");
+            response.append(SessionsManager.getIdent(user_id));
+            response.append(";");
+        }
         
-        return response;
+        return response.toString();
     }
     
     private String makeResponse() {

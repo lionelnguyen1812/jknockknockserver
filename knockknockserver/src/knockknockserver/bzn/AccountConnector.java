@@ -4,8 +4,29 @@ package knockknockserver.bzn;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class AccountManager {
+public class AccountConnector {
+
+    public int login(String user_name, String encryptedPassword) {
+        int user_id = -1;
+
+        try {
+            Connection cnn;
+            cnn = ConnectionUtil.getConnection();
+            String sql = "{call [login](?, ?, ?)}";
+            CallableStatement cstm = cnn.prepareCall(sql);
+            cstm.setString(1, user_name);
+            cstm.setString(2, encryptedPassword);
+            cstm.registerOutParameter(3, java.sql.Types.INTEGER);
+            cstm.execute();
+            user_id = cstm.getInt(3);
+        } catch (Exception ex) {
+            Logger.getLogger(AccountConnector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return user_id;
+    }
 
     public int createUseAccount(
             String user_name,
@@ -53,22 +74,20 @@ public class AccountManager {
         cnn.close();
         return row;
     }
-    
-    public boolean deactiveAccount(int user_id) throws SQLException, Exception{
+
+    public boolean deactiveAccount(int user_id) throws SQLException, Exception {
         Connection cnn = ConnectionUtil.getConnection();
         String sql = "{call deactive_account(?)}";
         CallableStatement cstm = cnn.prepareCall(sql);
         cstm.setInt(1, user_id);
         return cstm.executeUpdate() > 0;
     }
-    
-    public boolean activeAccount(int user_id) throws SQLException, Exception{
+
+    public boolean activeAccount(int user_id) throws SQLException, Exception {
         Connection cnn = ConnectionUtil.getConnection();
         String sql = "{call active_account(?)}";
         CallableStatement cstm = cnn.prepareCall(sql);
         cstm.setInt(1, user_id);
         return cstm.executeUpdate() > 0;
     }
-    
-    
 }

@@ -57,7 +57,7 @@ public class AccountManagerTest {
     
     public void testActiveUserAccount() throws Exception {
         int user_id = 3;
-        AccountManager instance = new AccountManager();
+        AccountConnector instance = new AccountConnector();
         assertTrue(instance.activeAccount(user_id));
         
 //        assertTrue(true);

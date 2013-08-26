@@ -6,8 +6,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import knockknockserver.ServerLogger;
 import knockknockserver.bzn.AccountConnector;
-import knockknockserver.bzn.SessionsManager;
-import knockknockserver.model.Session;
 
 public class ResponseFactory implements Runnable {
 
@@ -27,12 +25,7 @@ public class ResponseFactory implements Runnable {
         int user_id;
         user_id = new AccountConnector().login(user_name, encryptedPassword);
         if (user_id > 0){
-            SessionsManager.addSession(user_id);
-            response.append("sessionid;");
-            response.append(user_id);
-            response.append(";");
-            response.append(SessionsManager.getIdent(user_id));
-            response.append(";");
+            //do something
         }
         
         return response.toString();
